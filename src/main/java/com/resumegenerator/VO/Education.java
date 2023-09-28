@@ -1,5 +1,7 @@
 package com.resumegenerator.VO;
 
+import java.util.ArrayList;
+
 /**
 * @className    : Education
 * @fileName     : Education.java
@@ -11,16 +13,16 @@ package com.resumegenerator.VO;
 * -----------------------------------------------------------
 * 2023-09-26 :: 오후 3:57        Jiyong Jung       최초 생성
 */public class Education {
-    private int graduationYear; //졸업년도
+    private String graduationYear; //졸업년도
     private String schoolName;  //학교 명
     private String major;       //전공
     private String graduationStatus; //졸업여부
 
-    public int getGraduationYear() {
+    public String getGraduationYear() {
         return graduationYear;
     }
 
-    public void setGraduationYear(int graduationYear) {
+    public void setGraduationYear(String graduationYear) {
         this.graduationYear = graduationYear;
     }
 
