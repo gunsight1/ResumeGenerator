@@ -1,6 +1,7 @@
-package com.resumegenerator.Controller;
+package com.resumegenerator.controller;
 
-import com.resumegenerator.Serivce.GenerateReport;
+import com.resumegenerator.serivce.GenerateReport;
+import com.resumegenerator.serivce.GetReportInfo;
 import com.resumegenerator.VO.Carrer;
 import com.resumegenerator.VO.Education;
 import com.resumegenerator.VO.PersonInfo;
@@ -26,14 +27,16 @@ import java.util.HashMap;
 * DATE              AUTHOR             NOTE
 * -----------------------------------------------------------
 * 2023-09-26 :: 오후 2:00        Jiyong Jung       최초 생성
-*/@SpringBootApplication(scanBasePackages = {"com.resumegenerator.Serivce"})//main클래스 하위에 있어 패키지 지정, 스캔
+*/@SpringBootApplication(scanBasePackages = {"com.resumegenerator.serivce"})//main클래스 하위에 있어 패키지 지정, 스캔
 @Controller
 public class ResumeController {
 
     private final GenerateReport generateReport;
+    private final GetReportInfo getReportInfo;
     @Autowired
-    public ResumeController(GenerateReport generateReport) {
+    public ResumeController(GenerateReport generateReport, GetReportInfo getReportInfo) {
         this.generateReport = generateReport;
+        this.getReportInfo = getReportInfo;
     }
 
     public static void main(String[] args) throws Exception {
@@ -46,29 +49,28 @@ public class ResumeController {
 
         PersonInfo person = new PersonInfo();
         ArrayList<Education> eduList = new ArrayList<Education>();
-        ArrayList<Carrer> carerList = new ArrayList<Carrer>();
+        ArrayList<Carrer> carrerList = new ArrayList<Carrer>();
         String introduce = "";
 
         System.out.println("/************ 자기소개서 생성기 **************/");
 
-        if (GenerateReport.getPersonInfo(person)) { System.out.println("/************ 개인정보 입력 종료 **************/"); }
-        if (GenerateReport.getEduInfo(eduList)) { System.out.println("/************ 학력정보 입력 종료 **************/");}
-        if (GenerateReport.getCarrerInfo(carerList)) { System.out.println("/************ 경력정보 입력 종료 **************/"); }
+        if (GetReportInfo.getPersonInfo(person)) { System.out.println("/************ 개인정보 입력 종료 **************/"); }
+        if (GetReportInfo.getEduInfo(eduList)) { System.out.println("/************ 학력정보 입력 종료 **************/");}
+        if (GetReportInfo.getCarrerInfo(carrerList)) { System.out.println("/************ 경력정보 입력 종료 **************/"); }
 
         try {
-            introduce += GenerateReport.getIntroduceInfo();
+            introduce += GetReportInfo.getIntroduceInfo();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }finally {
             System.out.println("************ 자기소개 입력 종료 **************");
         }
 
-        System.out.println("자기소개 : " + introduce);
-
         //자기소개서 생성 요청
-        GenerateReport.generate(person,eduList,carerList,introduce);
+        GenerateReport.generate(person,eduList,carrerList,introduce);
 
-        //System.err.println("프로그램이 종료되었습니다.");
+
+
     }
 
     @RequestMapping("/gettingStart")
